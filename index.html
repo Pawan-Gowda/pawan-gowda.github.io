@@ -1,823 +1,208 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Pawan Gowda</title>
-<meta name="claude:viewport-fit-sides" content="cover" />
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
-/>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-  /* Layout concept: one long dark "night city" page. A glitching name opens it, a sticky nav tracks the section,
+/* Layout concept: one long dark "night city" page. A glitching name opens it, a sticky nav tracks the section,
    sections slide in on scroll, and a working terminal lets visitors query the content by typing. */
-  :root {
-    --bg: #0a0a12;
-    --surface: #12121e;
-    --surface-2: #191928;
-    --line: #2b2b44;
-    --fg: #e9e9f4;
-    --muted: #a0a0bb;
-    --cyan: #22e4ff;
-    --magenta: #ff2e88;
-    --amber: #ffd23f;
-    --font-display: "Rajdhani", "Arial Narrow", Impact, sans-serif;
-    --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo,
-      Consolas, monospace;
-    color-scheme: dark;
-  }
-  * {
-    box-sizing: border-box;
-  }
-  html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 72px;
-  }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--fg);
-    font-family: var(--font-body);
-    font-size: 17px;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-  body::before {
-    /* faint city grid */
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-image: linear-gradient(
-        to right,
-        rgba(34, 228, 255, 0.06) 1px,
-        transparent 1px
-      ),
-      linear-gradient(to bottom, rgba(34, 228, 255, 0.06) 1px, transparent 1px);
-    background-size: 56px 56px;
-    -webkit-mask-image: radial-gradient(
-      ellipse at 50% 0%,
-      #000 10%,
-      transparent 70%
-    );
-    mask-image: radial-gradient(ellipse at 50% 0%, #000 10%, transparent 70%);
-  }
-  body::after {
-    /* scanlines */
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 50;
-    pointer-events: none;
-    background: repeating-linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.14) 0,
-      rgba(0, 0, 0, 0.14) 1px,
-      transparent 1px,
-      transparent 3px
-    );
-    opacity: 0.35;
-  }
-  .safe-band {
-    position: fixed;
-    inset: 0 0 auto;
-    height: env(safe-area-inset-top, 0px);
-    background: var(--bg);
-    z-index: 60;
-  }
-  .progress {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: env(safe-area-inset-top, 0px);
-    height: 3px;
-    z-index: 61;
-    background: transparent;
-  }
-  .progress > i {
-    display: block;
-    height: 100%;
-    width: 0;
-    background: linear-gradient(90deg, var(--cyan), var(--magenta));
-    box-shadow: 0 0 10px var(--cyan);
-  }
+:root {
+  --bg: #0a0a12;
+  --surface: #12121e;
+  --surface-2: #191928;
+  --line: #2b2b44;
+  --fg: #e9e9f4;
+  --muted: #a0a0bb;
+  --cyan: #22e4ff;
+  --magenta: #ff2e88;
+  --amber: #ffd23f;
+  --font-display: "Rajdhani", "Arial Narrow", Impact, sans-serif;
+  --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+body::before { /* faint city grid */
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(34,228,255,.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(34,228,255,.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 10%, transparent 70%);
+          mask-image: radial-gradient(ellipse at 50% 0%, #000 10%, transparent 70%);
+}
+body::after { /* scanlines */
+  content: ""; position: fixed; inset: 0; z-index: 50; pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(0,0,0,.14) 0, rgba(0,0,0,.14) 1px, transparent 1px, transparent 3px);
+  opacity: .35;
+}
+.safe-band { position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); background: var(--bg); z-index: 60; }
+.progress { position: fixed; left: 0; right: 0; top: env(safe-area-inset-top, 0px); height: 3px; z-index: 61; background: transparent; }
+.progress > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--cyan), var(--magenta)); box-shadow: 0 0 10px var(--cyan); }
 
-  .wrap {
-    position: relative;
-    z-index: 1;
-    max-width: 1080px;
-    margin-inline: auto;
-    padding-left: max(16px, env(safe-area-inset-left, 0px));
-    padding-right: max(16px, env(safe-area-inset-right, 0px));
-  }
-  a {
-    color: var(--cyan);
-    text-decoration: none;
-  }
-  a:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-  :focus-visible {
-    outline: 2px solid var(--amber);
-    outline-offset: 3px;
-    border-radius: 2px;
-  }
+.wrap {
+  position: relative; z-index: 1;
+  max-width: 1080px; margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: var(--cyan); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 2px; }
 
-  /* nav */
-  .nav {
-    position: sticky;
-    top: env(safe-area-inset-top, 0px);
-    z-index: 40;
-    background: rgba(10, 10, 18, 0.88);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--line);
-  }
-  .nav .wrap {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    min-height: 56px;
-  }
-  .logo {
-    font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    font-size: 20px;
-    color: var(--fg);
-    white-space: nowrap;
-  }
-  .logo b {
-    color: var(--cyan);
-    font-weight: 700;
-  }
-  .links {
-    display: flex;
-    gap: 4px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    min-width: 0;
-  }
-  .links::-webkit-scrollbar {
-    display: none;
-  }
-  .links a {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    letter-spacing: 0.04em;
-    color: var(--muted);
-    padding: 8px 10px;
-    border-radius: 3px;
-    white-space: nowrap;
-  }
-  .links a:hover {
-    color: var(--fg);
-    text-decoration: none;
-  }
-  .links a.on {
-    color: var(--bg);
-    background: var(--cyan);
-  }
+/* nav */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; background: rgba(10,10,18,.88); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; }
+.logo { font-family: var(--font-display); font-weight: 700; letter-spacing: .12em; font-size: 20px; color: var(--fg); white-space: nowrap; }
+.logo b { color: var(--cyan); font-weight: 700; }
+.links { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; min-width: 0; }
+.links::-webkit-scrollbar { display: none; }
+.links a { font-family: var(--font-mono); font-size: 13px; letter-spacing: .04em; color: var(--muted); padding: 8px 10px; border-radius: 3px; white-space: nowrap; }
+.links a:hover { color: var(--fg); text-decoration: none; }
+.links a.on { color: var(--bg); background: var(--cyan); }
 
-  /* hero */
-  .hero {
-    padding-block: clamp(56px, 11vw, 120px) clamp(48px, 8vw, 88px);
-    position: relative;
-  }
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--amber);
-    border: 1px solid rgba(255, 210, 63, 0.4);
-    padding: 4px 10px;
-    border-radius: 2px;
-    background: rgba(255, 210, 63, 0.06);
-  }
-  .chip i {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--amber);
-    box-shadow: 0 0 8px var(--amber);
-    animation: pulse 1.6s infinite;
-  }
-  @keyframes pulse {
-    50% {
-      opacity: 0.35;
-    }
-  }
-  h1.glitch {
-    font-family: var(--font-display);
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: clamp(54px, 13vw, 148px);
-    line-height: 0.92;
-    letter-spacing: 0.02em;
-    margin: 22px 0 10px;
-    position: relative;
-    display: inline-block;
-    max-width: 100%;
-    text-wrap: balance;
-  }
-  h1.glitch::before,
-  h1.glitch::after {
-    content: attr(data-text);
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  h1.glitch::before {
-    color: var(--cyan);
-    transform: translateX(-3px);
-    clip-path: inset(0 0 100% 0);
-    animation: gl1 5s infinite steps(1);
-  }
-  h1.glitch::after {
-    color: var(--magenta);
-    transform: translateX(3px);
-    clip-path: inset(100% 0 0 0);
-    animation: gl2 5s infinite steps(1);
-  }
-  @keyframes gl1 {
-    0%,
-    86%,
-    100% {
-      clip-path: inset(0 0 100% 0);
-    }
-    88% {
-      clip-path: inset(10% 0 62% 0);
-    }
-    91% {
-      clip-path: inset(58% 0 14% 0);
-    }
-    94% {
-      clip-path: inset(30% 0 40% 0);
-    }
-  }
-  @keyframes gl2 {
-    0%,
-    87%,
-    100% {
-      clip-path: inset(100% 0 0 0);
-    }
-    89% {
-      clip-path: inset(48% 0 24% 0);
-    }
-    92% {
-      clip-path: inset(6% 0 70% 0);
-    }
-    95% {
-      clip-path: inset(66% 0 8% 0);
-    }
-  }
-  .role {
-    font-family: var(--font-mono);
-    font-size: clamp(14px, 2.4vw, 18px);
-    color: var(--cyan);
-    margin: 0 0 18px;
-  }
-  .role::after {
-    content: "_";
-    margin-left: 2px;
-    animation: blink 1s steps(1) infinite;
-  }
-  @keyframes blink {
-    50% {
-      opacity: 0;
-    }
-  }
-  .lede {
-    max-width: 56ch;
-    font-size: clamp(18px, 2.4vw, 21px);
-    color: var(--fg);
-    margin: 0 0 28px;
-  }
-  .cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .btn {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 18px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 11px 22px;
-    border: 1px solid var(--cyan);
-    color: var(--cyan);
-    background: transparent;
-    cursor: pointer;
-    clip-path: polygon(
-      0 0,
-      calc(100% - 12px) 0,
-      100% 12px,
-      100% 100%,
-      12px 100%,
-      0 calc(100% - 12px)
-    );
-    transition: background 0.15s, color 0.15s;
-  }
-  .btn:hover {
-    background: var(--cyan);
-    color: var(--bg);
-    text-decoration: none;
-  }
-  .btn.solid {
-    background: var(--cyan);
-    color: var(--bg);
-  }
-  .btn.solid:hover {
-    background: var(--fg);
-    border-color: var(--fg);
-  }
-  .hero-grid {
-    position: absolute;
-    right: -4%;
-    top: 6%;
-    width: min(46vw, 460px);
-    aspect-ratio: 1;
-    opacity: 0.5;
-    pointer-events: none;
-    z-index: 0;
-    background: repeating-linear-gradient(
-      135deg,
-      transparent 0 14px,
-      rgba(255, 46, 136, 0.18) 14px 16px
-    );
-    clip-path: polygon(20% 0, 100% 0, 100% 80%, 80% 100%, 0 100%, 0 20%);
-    will-change: transform;
-  }
-  .hero .inner {
-    position: relative;
-    z-index: 1;
-  }
+/* hero */
+.hero { padding-block: clamp(56px, 11vw, 120px) clamp(48px, 8vw, 88px); position: relative; }
+.chip { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 13px; color: var(--amber); border: 1px solid rgba(255,210,63,.4); padding: 4px 10px; border-radius: 2px; background: rgba(255,210,63,.06); }
+.chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 8px var(--amber); animation: pulse 1.6s infinite; }
+@keyframes pulse { 50% { opacity: .35; } }
+h1.glitch {
+  font-family: var(--font-display); font-weight: 700; text-transform: uppercase;
+  font-size: clamp(54px, 13vw, 148px); line-height: .92; letter-spacing: .02em;
+  margin: 22px 0 10px; position: relative; display: inline-block; max-width: 100%; text-wrap: balance;
+}
+h1.glitch::before, h1.glitch::after {
+  content: attr(data-text); position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+}
+h1.glitch::before { color: var(--cyan); transform: translateX(-3px); clip-path: inset(0 0 100% 0); animation: gl1 5s infinite steps(1); }
+h1.glitch::after  { color: var(--magenta); transform: translateX(3px); clip-path: inset(100% 0 0 0); animation: gl2 5s infinite steps(1); }
+@keyframes gl1 { 0%,86%,100% { clip-path: inset(0 0 100% 0); } 88% { clip-path: inset(10% 0 62% 0); } 91% { clip-path: inset(58% 0 14% 0); } 94% { clip-path: inset(30% 0 40% 0); } }
+@keyframes gl2 { 0%,87%,100% { clip-path: inset(100% 0 0 0); } 89% { clip-path: inset(48% 0 24% 0); } 92% { clip-path: inset(6% 0 70% 0); } 95% { clip-path: inset(66% 0 8% 0); } }
+.role { font-family: var(--font-mono); font-size: clamp(14px, 2.4vw, 18px); color: var(--cyan); margin: 0 0 18px; }
+.role::after { content: "_"; margin-left: 2px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.lede { max-width: 56ch; font-size: clamp(18px, 2.4vw, 21px); color: var(--fg); margin: 0 0 28px; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: .08em; text-transform: uppercase;
+  padding: 11px 22px; border: 1px solid var(--cyan); color: var(--cyan); background: transparent; cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  transition: background .15s, color .15s;
+}
+.btn:hover { background: var(--cyan); color: var(--bg); text-decoration: none; }
+.btn.solid { background: var(--cyan); color: var(--bg); }
+.btn.solid:hover { background: var(--fg); border-color: var(--fg); }
+.portrait { position: absolute; right: max(16px, env(safe-area-inset-right, 0px)); top: clamp(56px, 11vw, 120px); width: min(26vw, 260px); z-index: 1; }
+.portrait[hidden] { display: none; }
+.hero-grid { position: absolute; left: 50%; top: 50%; width: 170%; aspect-ratio: 1; transform: translate(-50%, calc(-50% + var(--py, 0px))); opacity: .5; pointer-events: none; z-index: 0;
+  background: repeating-linear-gradient(135deg, transparent 0 14px, rgba(255,46,136,.18) 14px 16px);
+  clip-path: polygon(20% 0, 100% 0, 100% 80%, 80% 100%, 0 100%, 0 20%); will-change: transform; }
+.hero .inner { position: relative; z-index: 1; }
 
-  .photo {
-    position: absolute;
-    right: max(16px, env(safe-area-inset-right, 0px));
-    top: clamp(56px, 11vw, 120px);
-    width: min(26vw, 260px);
-    aspect-ratio: 4/5;
-    object-fit: cover;
-    border: 1px solid var(--cyan);
-    box-shadow: 0 0 24px rgba(34, 228, 255, 0.25);
-    clip-path: polygon(
-      0 0,
-      calc(100% - 22px) 0,
-      100% 22px,
-      100% 100%,
-      22px 100%,
-      0 calc(100% - 22px)
-    );
-    z-index: 1;
-  }
-  .photo[hidden] {
-    display: none;
-  }
-  .card .shot {
-    display: block;
-    width: calc(100% + 44px);
-    margin: -22px -22px 14px;
-    aspect-ratio: 16/9;
-    object-fit: cover;
-    border-bottom: 1px solid var(--line);
-  }
-  @media (max-width: 900px) {
-    .photo {
-      position: static;
-      width: 140px;
-      margin-bottom: 8px;
-    }
-  }
-  @media (min-width: 901px) {
-    .hero .inner {
-      padding-right: min(30vw, 300px);
-    }
-    h1.glitch {
-      font-size: clamp(54px, 9vw, 120px);
-    }
-  }
-  /* sections */
-  section {
-    padding-block: clamp(48px, 7vw, 84px);
-    position: relative;
-  }
-  .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--magenta);
-    letter-spacing: 0.08em;
-    margin: 0 0 6px;
-  }
-  h2 {
-    font-family: var(--font-display);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    font-size: clamp(32px, 5vw, 48px);
-    line-height: 1.05;
-    margin: 0 0 28px;
-    text-wrap: balance;
-  }
-  h2::after {
-    content: "";
-    display: block;
-    width: 64px;
-    height: 3px;
-    margin-top: 12px;
-    background: var(--cyan);
-    box-shadow: 0 0 12px var(--cyan);
-  }
+.photo { position: relative; display: block; width: 100%; aspect-ratio: 4/5; object-fit: cover; border: 1px solid var(--cyan); box-shadow: 0 0 24px rgba(34,228,255,.25); clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px)); z-index: 1; }
+.card .shot { display: block; width: calc(100% + 44px); margin: -22px -22px 14px; aspect-ratio: 16/9; object-fit: cover; border-bottom: 1px solid var(--line); }
+@media (max-width: 900px) { .portrait { position: relative; right: auto; top: auto; width: 150px; margin: 8px auto 28px; } }
+@media (min-width: 901px) { .hero .inner { padding-right: min(30vw, 300px); } h1.glitch { font-size: clamp(54px, 9vw, 120px); } }
+/* sections */
+section { padding-block: clamp(48px, 7vw, 84px); position: relative; }
+.eyebrow { font-family: var(--font-mono); font-size: 13px; color: var(--magenta); letter-spacing: .08em; margin: 0 0 6px; }
+h2 { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: clamp(32px, 5vw, 48px); line-height: 1.05; margin: 0 0 28px; text-wrap: balance; }
+h2::after { content: ""; display: block; width: 64px; height: 3px; margin-top: 12px; background: var(--cyan); box-shadow: 0 0 12px var(--cyan); }
 
-  /* reveal: readable at rest, slides in on scroll */
-  .reveal {
-    opacity: 0.3;
-    transform: translateY(28px);
-    filter: blur(2px);
-    transition: opacity 0.6s ease, transform 0.6s ease, filter 0.6s ease;
-    transition-delay: var(--d, 0ms);
-  }
-  .reveal.in {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
+/* reveal: readable at rest, slides in on scroll */
+.reveal { opacity: .3; transform: translateY(28px); filter: blur(2px); transition: opacity .6s ease, transform .6s ease, filter .6s ease; transition-delay: var(--d, 0ms); }
+.reveal.in { opacity: 1; transform: none; filter: none; }
 
-  /* projects */
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-    gap: 18px;
-  }
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    padding: 22px 22px 20px;
-    min-width: 0;
-    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
-    transition: border-color 0.2s, transform 0.2s, background 0.2s;
-    position: relative;
-  }
-  .card:hover {
-    border-color: var(--cyan);
-    background: var(--surface-2);
-  }
-  .card h3 {
-    font-family: var(--font-display);
-    font-size: 25px;
-    letter-spacing: 0.03em;
-    margin: 0 0 6px;
-    line-height: 1.15;
-  }
-  .kind {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--amber);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    display: block;
-  }
-  .card p {
-    margin: 0 0 12px;
-    color: var(--muted);
-    font-size: 16px;
-  }
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin: 0 0 12px;
-    padding: 0;
-    list-style: none;
-  }
-  .tags li {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--cyan);
-    border: 1px solid rgba(34, 228, 255, 0.35);
-    padding: 2px 8px;
-    border-radius: 2px;
-  }
-  details summary {
-    cursor: pointer;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--fg);
-    list-style: none;
-    padding: 4px 0;
-  }
-  details summary::-webkit-details-marker {
-    display: none;
-  }
-  details summary::before {
-    content: "[+] ";
-    color: var(--magenta);
-  }
-  details[open] summary::before {
-    content: "[-] ";
-  }
-  details ul {
-    margin: 8px 0 0;
-    padding-left: 18px;
-    color: var(--fg);
-    font-size: 15.5px;
-  }
-  details li {
-    margin-bottom: 4px;
-  }
+/* projects */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 18px; }
+.card {
+  background: var(--surface); border: 1px solid var(--line); padding: 22px 22px 20px; min-width: 0;
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+  transition: border-color .2s, transform .2s, background .2s; position: relative;
+}
+.card:hover { border-color: var(--cyan); background: var(--surface-2); }
+.card h3 { font-family: var(--font-display); font-size: 25px; letter-spacing: .03em; margin: 0 0 6px; line-height: 1.15; }
+.kind { font-family: var(--font-mono); font-size: 12px; color: var(--amber); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; display: block; }
+.card p { margin: 0 0 12px; color: var(--muted); font-size: 16px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; padding: 0; list-style: none; }
+.tags li { font-family: var(--font-mono); font-size: 12px; color: var(--cyan); border: 1px solid rgba(34,228,255,.35); padding: 2px 8px; border-radius: 2px; }
+details summary { cursor: pointer; font-family: var(--font-mono); font-size: 13px; color: var(--fg); list-style: none; padding: 4px 0; }
+details summary::-webkit-details-marker { display: none; }
+details summary::before { content: "[+] "; color: var(--magenta); }
+details[open] summary::before { content: "[-] "; }
+details ul { margin: 8px 0 0; padding-left: 18px; color: var(--fg); font-size: 15.5px; }
+details li { margin-bottom: 4px; }
 
-  /* skills */
-  .groups {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-    gap: 18px;
-  }
-  .group {
-    border-left: 3px solid var(--magenta);
-    padding: 4px 0 4px 16px;
-    min-width: 0;
-  }
-  .group h3 {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin: 0 0 10px;
-    font-weight: 500;
-  }
-  .group.learning {
-    border-left-color: var(--amber);
-  }
-  .group.learning .tags li {
-    color: var(--amber);
-    border-color: rgba(255, 210, 63, 0.4);
-  }
+/* skills */
+.groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 18px; }
+.group { border-left: 3px solid var(--magenta); padding: 4px 0 4px 16px; min-width: 0; }
+.group h3 { font-family: var(--font-mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; font-weight: 500; }
+.group.learning { border-left-color: var(--amber); }
+.group.learning .tags li { color: var(--amber); border-color: rgba(255,210,63,.4); }
 
-  /* timeline */
-  .timeline {
-    position: relative;
-    padding-left: 28px;
-    margin: 0;
-    list-style: none;
-  }
-  .timeline::before {
-    content: "";
-    position: absolute;
-    left: 6px;
-    top: 6px;
-    bottom: 6px;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--cyan), var(--magenta));
-  }
-  .timeline li {
-    position: relative;
-    margin-bottom: 30px;
-  }
-  .timeline li::before {
-    content: "";
-    position: absolute;
-    left: -28px;
-    top: 8px;
-    width: 14px;
-    height: 14px;
-    background: var(--bg);
-    border: 2px solid var(--cyan);
-    transform: rotate(45deg);
-  }
-  .when {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--amber);
-  }
-  .timeline h3 {
-    font-family: var(--font-display);
-    font-size: 24px;
-    margin: 2px 0 2px;
-    letter-spacing: 0.03em;
-  }
-  .where {
-    color: var(--muted);
-    margin: 0 0 8px;
-  }
-  .timeline ul {
-    margin: 0;
-    padding-left: 18px;
-  }
-  .timeline li li {
-    margin: 0 0 4px;
-  }
-  .timeline li li::before {
-    display: none;
-  }
+/* timeline */
+.timeline { position: relative; padding-left: 28px; margin: 0; list-style: none; }
+.timeline::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(to bottom, var(--cyan), var(--magenta)); }
+.timeline li { position: relative; margin-bottom: 30px; }
+.timeline li::before { content: ""; position: absolute; left: -28px; top: 8px; width: 14px; height: 14px; background: var(--bg); border: 2px solid var(--cyan); transform: rotate(45deg); }
+.when { font-family: var(--font-mono); font-size: 13px; color: var(--amber); }
+.timeline h3 { font-family: var(--font-display); font-size: 24px; margin: 2px 0 2px; letter-spacing: .03em; }
+.where { color: var(--muted); margin: 0 0 8px; }
+.timeline ul { margin: 0; padding-left: 18px; }
+.timeline li li { margin: 0 0 4px; }
+.timeline li li::before { display: none; }
 
-  .certs {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-    gap: 12px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .certs li {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    padding: 12px 16px;
-    min-width: 0;
-  }
-  .certs b {
-    display: block;
-    font-weight: 600;
-  }
-  .certs span {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--muted);
-  }
+.certs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+.certs li { background: var(--surface); border: 1px solid var(--line); padding: 12px 16px; min-width: 0; }
+.certs b { display: block; font-weight: 600; }
+.certs span { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
 
-  /* terminal */
-  .term {
-    background: #07070d;
-    border: 1px solid var(--cyan);
-    box-shadow: 0 0 0 1px rgba(34, 228, 255, 0.15),
-      0 0 28px rgba(34, 228, 255, 0.12);
-    max-width: 860px;
-  }
-  .term-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    border-bottom: 1px solid var(--line);
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--muted);
-  }
-  .term-bar i {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--line);
-  }
-  .term-bar i:nth-child(1) {
-    background: var(--magenta);
-  }
-  .term-bar i:nth-child(2) {
-    background: var(--amber);
-  }
-  .term-bar i:nth-child(3) {
-    background: var(--cyan);
-  }
-  .out {
-    font-family: var(--font-mono);
-    font-size: 14px;
-    line-height: 1.55;
-    padding: 14px 14px 4px;
-    height: 340px;
-    overflow-y: auto;
-    overflow-wrap: anywhere;
-  }
-  .out div {
-    white-space: pre-wrap;
-    margin: 0 0 2px;
-    min-width: 0;
-  }
-  .out .cmd {
-    color: var(--cyan);
-  }
-  .out .dim {
-    color: var(--muted);
-  }
-  .out .hl {
-    color: var(--amber);
-  }
-  .out .err {
-    color: var(--magenta);
-  }
-  .prompt {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px 14px;
-    font-family: var(--font-mono);
-    font-size: 14px;
-  }
-  .prompt label {
-    color: var(--cyan);
-    white-space: nowrap;
-  }
-  .prompt input {
-    flex: 1;
-    min-width: 0;
-    background: transparent;
-    border: 0;
-    border-bottom: 1px dashed var(--line);
-    color: var(--fg);
-    font: inherit;
-    padding: 4px 0;
-  }
-  .prompt input:focus {
-    outline: none;
-    border-bottom-color: var(--cyan);
-  }
-  .quick {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 14px 0 0;
-  }
-  .quick button {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--cyan);
-    background: transparent;
-    border: 1px solid rgba(34, 228, 255, 0.4);
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 2px;
-  }
-  .quick button:hover {
-    background: var(--cyan);
-    color: var(--bg);
-  }
+/* terminal */
+.term { background: #07070d; border: 1px solid var(--cyan); box-shadow: 0 0 0 1px rgba(34,228,255,.15), 0 0 28px rgba(34,228,255,.12); max-width: 860px; }
+.term-bar { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.term-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+.term-bar i:nth-child(1) { background: var(--magenta); } .term-bar i:nth-child(2) { background: var(--amber); } .term-bar i:nth-child(3) { background: var(--cyan); }
+.out { font-family: var(--font-mono); font-size: 14px; line-height: 1.55; padding: 14px 14px 4px; height: 340px; overflow-y: auto; overflow-wrap: anywhere; }
+.out div { white-space: pre-wrap; margin: 0 0 2px; min-width: 0; }
+.out .cmd { color: var(--cyan); }
+.out .dim { color: var(--muted); }
+.out .hl { color: var(--amber); }
+.out .err { color: var(--magenta); }
+.prompt { display: flex; align-items: center; gap: 8px; padding: 6px 14px 14px; font-family: var(--font-mono); font-size: 14px; }
+.prompt label { color: var(--cyan); white-space: nowrap; }
+.prompt input { flex: 1; min-width: 0; background: transparent; border: 0; border-bottom: 1px dashed var(--line); color: var(--fg); font: inherit; padding: 4px 0; }
+.prompt input:focus { outline: none; border-bottom-color: var(--cyan); }
+.quick { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; }
+.quick button { font-family: var(--font-mono); font-size: 13px; color: var(--cyan); background: transparent; border: 1px solid rgba(34,228,255,.4); padding: 5px 10px; cursor: pointer; border-radius: 2px; }
+.quick button:hover { background: var(--cyan); color: var(--bg); }
 
-  /* contact */
-  .mail {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
-    font-family: var(--font-mono);
-    font-size: clamp(16px, 3vw, 22px);
-  }
-  .mail code {
-    color: var(--fg);
-    user-select: all;
-    overflow-wrap: anywhere;
-  }
-  .copy {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--amber);
-    background: transparent;
-    border: 1px solid rgba(255, 210, 63, 0.5);
-    padding: 5px 12px;
-    cursor: pointer;
-    border-radius: 2px;
-  }
-  .copy:hover {
-    background: var(--amber);
-    color: var(--bg);
-  }
-  .social {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 18px;
-    font-family: var(--font-mono);
-  }
-  footer {
-    padding-block: 36px 48px;
-    border-top: 1px solid var(--line);
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--muted);
-  }
+/* contact */
+.mail { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: clamp(16px, 3vw, 22px); }
+.mail code { color: var(--fg); user-select: all; overflow-wrap: anywhere; }
+.copy { font-family: var(--font-mono); font-size: 13px; color: var(--amber); background: transparent; border: 1px solid rgba(255,210,63,.5); padding: 5px 12px; cursor: pointer; border-radius: 2px; }
+.copy:hover { background: var(--amber); color: var(--bg); }
+.social { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 18px; font-family: var(--font-mono); }
+footer { padding-block: 36px 48px; border-top: 1px solid var(--line); font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
 
-  @media (max-width: 640px) {
-    .links a {
-      padding: 8px 8px;
-    }
-    .logo {
-      font-size: 18px;
-    }
-    .out {
-      height: 300px;
-      font-size: 13px;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-    h1.glitch::before,
-    h1.glitch::after,
-    .chip i,
-    .role::after {
-      animation: none;
-    }
-    .reveal {
-      opacity: 1;
-      transform: none;
-      filter: none;
-      transition: none;
-    }
-  }
+@media (max-width: 640px) {
+  .links a { padding: 8px 8px; }
+  .logo { font-size: 18px; }
+  .out { height: 300px; font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  h1.glitch::before, h1.glitch::after, .chip i, .role::after { animation: none; }
+  .reveal { opacity: 1; transform: none; filter: none; transition: none; }
+}
 </style>
 
 <div class="safe-band"></div>
@@ -825,17 +210,17 @@
 
 <header class="nav">
   <div class="wrap">
-    <a class="logo" href="#top" aria-label="Pawan Gowda, back to top"
-      >PAWAN<b>//</b>GOWDA</a
-    >
+    <a class="logo" href="#top" aria-label="Pawan Gowda, back to top">PAWAN<b>//</b>GOWDA</a>
     <nav class="links" id="nav" aria-label="Sections"></nav>
   </div>
 </header>
 
 <main id="top">
   <div class="wrap hero">
-    <div class="hero-grid" id="heroGrid" aria-hidden="true"></div>
-    <img class="photo" id="photo" alt="" hidden />
+    <div class="portrait" id="portrait" hidden>
+      <div class="hero-grid" id="heroGrid" aria-hidden="true"></div>
+      <img class="photo" id="photo" alt="">
+    </div>
     <div class="inner">
       <span class="chip"><i></i><span id="status"></span></span>
       <h1 class="glitch" id="name" data-text=""></h1>
@@ -846,498 +231,183 @@
   </div>
 
   <div class="wrap">
-    <section id="projects">
-      <p class="eyebrow">// projects</p>
-      <h2 class="reveal">Things I built</h2>
-      <div class="cards" id="cards"></div>
-    </section>
+    <section id="projects"><p class="eyebrow">// projects</p><h2 class="reveal">Things I built</h2><div class="cards" id="cards"></div></section>
     <section id="terminal">
-      <p class="eyebrow">// terminal</p>
-      <h2 class="reveal">Ask me anything</h2>
+      <p class="eyebrow">// terminal</p><h2 class="reveal">Ask me anything</h2>
       <div class="term reveal">
-        <div class="term-bar">
-          <i></i><i></i><i></i><span>visitor@pawan:~</span>
-        </div>
+        <div class="term-bar"><i></i><i></i><i></i><span>visitor@pawan:~</span></div>
         <div class="out" id="out" role="log" aria-live="polite"></div>
         <form class="prompt" id="form" autocomplete="off">
           <label for="cmd">$</label>
-          <input
-            id="cmd"
-            type="text"
-            spellcheck="false"
-            autocapitalize="off"
-            autocomplete="off"
-            placeholder="type a command, e.g. projects"
-            aria-label="Terminal command"
-          />
+          <input id="cmd" type="text" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="type a command, e.g. projects" aria-label="Terminal command">
         </form>
       </div>
       <div class="quick" id="quick"></div>
     </section>
-    <section id="skills">
-      <p class="eyebrow">// skills</p>
-      <h2 class="reveal">Toolkit</h2>
-      <div class="groups" id="groups"></div>
-    </section>
-    <section id="journey">
-      <p class="eyebrow">// journey</p>
-      <h2 class="reveal">Work and school</h2>
-      <ol class="timeline" id="timeline"></ol>
-    </section>
-    <section id="certs">
-      <p class="eyebrow">// certifications</p>
-      <h2 class="reveal">Credentials</h2>
-      <ul class="certs" id="certList"></ul>
-    </section>
-    <section id="contact">
-      <p class="eyebrow">// contact</p>
-      <h2 class="reveal">Get in touch</h2>
-      <div class="mail reveal">
-        <code id="mail"></code
-        ><button class="copy" id="copy" type="button">Copy email</button>
-      </div>
+    <section id="skills"><p class="eyebrow">// skills</p><h2 class="reveal">Toolkit</h2><div class="groups" id="groups"></div></section>
+    <section id="journey"><p class="eyebrow">// journey</p><h2 class="reveal">Work and school</h2><ol class="timeline" id="timeline"></ol></section>
+    <section id="certs"><p class="eyebrow">// certifications</p><h2 class="reveal">Credentials</h2><ul class="certs" id="certList"></ul></section>
+    <section id="contact"><p class="eyebrow">// contact</p><h2 class="reveal">Get in touch</h2>
+      <div class="mail reveal"><code id="mail"></code><button class="copy" id="copy" type="button">Copy email</button></div>
       <div class="social reveal" id="social"></div>
     </section>
   </div>
 </main>
-<footer>
-  <div class="wrap"><span id="foot"></span></div>
-</footer>
+<footer><div class="wrap"><span id="foot"></span></div></footer>
 
 <script>
-  /* ============================================================
+/* ============================================================
    EDIT YOUR CONTENT HERE. Everything on the page, and every
    terminal answer, is built from this one object.
    ============================================================ */
-  const SITE = {
-    name: "Pawan Gowda",
-    status: "Open to work · Bangalore",
-    role: "Aspiring security analyst. Python, Splunk, logs.",
-    lede: "I build small tools that read logs, scan systems, and check suspicious links. Looking for my first full-time role in security operations or IT.",
-    resumeUrl: "", // paste a link to your resume PDF here, the button appears automatically
-    photo: "images/me.jpg", // your portrait, e.g. "images/me.jpg". Leave empty to hide. Best at 4:5 (portrait).
-    email: "pawangowda1323@gmail.com",
-    github: "https://github.com/Pawan-Gowda",
-    linkedin: "https://linkedin.com/in/pawan-gowda",
-    about:
-      "BCA graduate from Bangalore (2025). I learned security by building: a Splunk lab, a phishing link checker, a vulnerability scanner and a log monitor. I want to do this work for a living.",
-    projects: [
-      {
-        slug: "splunk-lab",
-        name: "Splunk SOC Home Lab",
-        kind: "Home lab",
-        image: "",
-        /* screenshot path, e.g. "images/splunk-dashboard.jpg" (16:9). Add this line to any project. */ stack:
-          ["Splunk Enterprise", "Linux", "SPL"],
-        blurb:
-          "A small practice SOC. Live logs go in, simulated attacks run, and a dashboard shows what matters.",
-        points: [
-          "Set up Splunk Enterprise on a Linux VM to practice SOC-style log monitoring.",
-          "Pulled in live logs to track host, network and login activity.",
-          "Simulated brute-force login attempts and wrote SPL searches to catch the patterns.",
-          "Built a dashboard with alert severity levels so serious events stand out.",
-        ],
-      },
-      {
-        slug: "phishing-analyzer",
-        name: "Phishing Email Analyzer",
-        kind: "Python tool",
-        stack: ["Python", "VirusTotal API", "REST"],
-        blurb:
-          "Pulls links out of a suspicious email and checks each one, so a quick verdict is ready for review.",
-        points: [
-          "Extracts URLs from suspicious emails and checks them with the VirusTotal API.",
-          "Flags suspicious sender domains and common phishing keywords.",
-          "Outputs a safe, suspicious or malicious summary for quicker review.",
-        ],
-      },
-      {
-        slug: "vuln-scanner",
-        name: "Vulnerability Scanner",
-        kind: "Python tool",
-        stack: ["Python", "Nmap", "NVD API"],
-        blurb:
-          "Finds open ports and services on a target, then looks up known CVEs for each one.",
-        points: [
-          "Uses Nmap to find open ports and running services on a target system.",
-          "Looks up known CVEs for each service through the NVD API.",
-          "Scans multiple IPs or hostnames in one run and outputs a report ranked by severity.",
-        ],
-      },
-      {
-        slug: "log-monitor",
-        name: "Linux Log Monitor",
-        kind: "Python tool",
-        stack: ["Python", "Linux", "Automation"],
-        blurb:
-          "Watches Linux logs and raises an alert when logins fail or access looks wrong.",
-        points: [
-          "Watches Linux system logs for suspicious activity such as failed logins.",
-          "Generates automatic alerts for unauthorized access patterns.",
-          "Runs on a cloud VM on a schedule, so nobody has to read logs by hand.",
-        ],
-      },
-    ],
-    skills: [
-      {
-        group: "Monitoring",
-        items: [
-          "Splunk Enterprise",
-          "SPL searches",
-          "Log analysis",
-          "Alert triage",
-        ],
-      },
-      {
-        group: "Networking",
-        items: ["TCP/IP", "DNS", "HTTP/HTTPS", "SSH", "Nmap"],
-      },
-      { group: "Systems", items: ["Linux (Ubuntu)", "Windows"] },
-      {
-        group: "Scripting and data",
-        items: ["Python", "SQL", "Bash", "REST APIs", "Git and GitHub"],
-      },
-      {
-        group: "Learning now",
-        learning: true,
-        items: ["Python Automation", "SQL practice", "JavaScript"],
-      },
-    ],
-    journey: [
-      {
-        when: "Jan 2025 – Feb 2025",
-        title: "Software Development Intern",
-        where: "GenEd Technologies · Remote",
-        points: [
-          "Set up local environments to run and test a Store Management System that tracked store stock and customer purchases.",
-          "Wrote SQL queries to check database tables for consistency and correct structure.",
-          "Reviewed server error logs to help spot authentication issues during testing.",
-          "Took part in code reviews and worked with the dev team to improve backend reliability.",
-        ],
-      },
-      {
-        when: "2022 – 2025",
-        title: "Bachelor of Computer Applications",
-        where: "New Horizon College, Bangalore · CGPA 8.24",
-        points: [],
-      },
-    ],
-    certs: [
-      { name: "Google Cybersecurity Professional Certificate", by: "Google" },
-      { name: "Fortinet Certified Associate in Cybersecurity", by: "Fortinet" },
-      { name: "Cybersecurity Introduction", by: "Cisco Networking Academy" },
-      { name: "SQL Intermediate", by: "HackerRank" },
-      { name: "Cloud Computing Fundamentals", by: "IBM Cloud" },
-    ],
-  };
+const SITE = {
+  name: "Pawan Gowda",
+  status: "Open to work · Bangalore",
+  role: "Aspiring security analyst. Python, Splunk, logs.",
+  lede: "I build small tools that read logs, scan systems, and check suspicious links. Looking for my first full-time role in security operations or IT.",
+  resumeUrl: "",            // paste a link to your resume PDF here, the button appears automatically
+  photo: "images/me.jpg",                // your portrait, e.g. "images/me.jpg". Leave empty to hide. Best at 4:5 (portrait).
+  email: "pawangowda1323@gmail.com",
+  github: "https://github.com/Pawan-Gowda",
+  linkedin: "https://linkedin.com/in/pawan-gowda",
+  about: "BCA graduate from Bangalore (2025). I learned security by building: a Splunk lab, a phishing link checker, a vulnerability scanner and a log monitor. I want to do this work for a living.",
+  projects: [
+    { slug: "splunk-lab", name: "Splunk SOC Home Lab", kind: "Home lab", image: "", /* screenshot path, e.g. "images/splunk-dashboard.jpg" (16:9). Add this line to any project. */ stack: ["Splunk Enterprise", "Linux", "SPL"],
+      blurb: "A small practice SOC. Live logs go in, simulated attacks run, and a dashboard shows what matters.",
+      points: ["Set up Splunk Enterprise on a Linux VM to practice SOC-style log monitoring.", "Pulled in live logs to track host, network and login activity.", "Simulated brute-force login attempts and wrote SPL searches to catch the patterns.", "Built a dashboard with alert severity levels so serious events stand out."] },
+    { slug: "phishing-analyzer", name: "Phishing Email Analyzer", kind: "Python tool", stack: ["Python", "VirusTotal API", "REST"],
+      blurb: "Pulls links out of a suspicious email and checks each one, so a quick verdict is ready for review.",
+      points: ["Extracts URLs from suspicious emails and checks them with the VirusTotal API.", "Flags suspicious sender domains and common phishing keywords.", "Outputs a safe, suspicious or malicious summary for quicker review."] },
+    { slug: "vuln-scanner", name: "Vulnerability Scanner", kind: "Python tool", stack: ["Python", "Nmap", "NVD API"],
+      blurb: "Finds open ports and services on a target, then looks up known CVEs for each one.",
+      points: ["Uses Nmap to find open ports and running services on a target system.", "Looks up known CVEs for each service through the NVD API.", "Scans multiple IPs or hostnames in one run and outputs a report ranked by severity."] },
+    { slug: "log-monitor", name: "Linux Log Monitor", kind: "Python tool", stack: ["Python", "Linux", "Automation"],
+      blurb: "Watches Linux logs and raises an alert when logins fail or access looks wrong.",
+      points: ["Watches Linux system logs for suspicious activity such as failed logins.", "Generates automatic alerts for unauthorized access patterns.", "Runs on a cloud VM on a schedule, so nobody has to read logs by hand."] }
+  ],
+  skills: [
+    { group: "Monitoring", items: ["Splunk Enterprise", "SPL searches", "Log analysis", "Alert triage"] },
+    { group: "Networking", items: ["TCP/IP", "DNS", "HTTP/HTTPS", "SSH", "Nmap"] },
+    { group: "Systems", items: ["Linux (Ubuntu)", "Windows"] },
+    { group: "Scripting and data", items: ["Python", "SQL", "Bash", "REST APIs", "Git and GitHub"] },
+    { group: "Learning now", learning: true, items: ["Writing Python from scratch", "SQL practice", "Docker basics", "JavaScript"] }
+  ],
+  journey: [
+    { when: "Jan 2025 – Feb 2025", title: "Software Development Intern", where: "GenEd Technologies · Remote",
+      points: ["Set up local environments to run and test a Store Management System that tracked store stock and customer purchases.", "Wrote SQL queries to check database tables for consistency and correct structure.", "Reviewed server error logs to help spot authentication issues during testing.", "Took part in code reviews and worked with the dev team to improve backend reliability."] },
+    { when: "2022 – 2025", title: "Bachelor of Computer Applications", where: "New Horizon College, Bangalore · CGPA 8.24", points: [] }
+  ],
+  certs: [
+    { name: "Google Cybersecurity Professional Certificate", by: "Google" },
+    { name: "Fortinet Certified Associate in Cybersecurity", by: "Fortinet" },
+    { name: "Cybersecurity Introduction", by: "Cisco Networking Academy" },
+    { name: "SQL Intermediate", by: "HackerRank" },
+    { name: "Cloud Computing Fundamentals", by: "IBM Cloud" }
+  ]
+};
 
-  /* ---------- build the page from SITE ---------- */
-  const $ = (id) => document.getElementById(id);
-  const el = (tag, cls, text) => {
-    const n = document.createElement(tag);
-    if (cls) n.className = cls;
-    if (text != null) n.textContent = text;
-    return n;
-  };
+/* ---------- build the page from SITE ---------- */
+const $ = (id) => document.getElementById(id);
+const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
 
-  $("name").textContent = SITE.name;
-  $("name").setAttribute("data-text", SITE.name);
-  $("status").textContent = SITE.status;
-  $("role").textContent = SITE.role;
-  $("lede").textContent = SITE.lede;
-  $("mail").textContent = SITE.email;
-  $("foot").textContent =
-    SITE.name + " · built with a terminal, a grid and too much gaming";
+$("name").textContent = SITE.name; $("name").setAttribute("data-text", SITE.name);
+$("status").textContent = SITE.status; $("role").textContent = SITE.role; $("lede").textContent = SITE.lede;
+$("mail").textContent = SITE.email; $("foot").textContent = SITE.name + " · built with a terminal, a grid and too much gaming";
 
-  if (SITE.photo) {
-    const ph = $("photo");
-    ph.src = SITE.photo;
-    ph.alt = SITE.name;
-    ph.hidden = false;
-  }
-  const cta = $("cta");
-  const a1 = el("a", "btn solid", "See projects");
-  a1.href = "#projects";
-  cta.append(a1);
-  const a2 = el("a", "btn", "Open terminal");
-  a2.href = "#terminal";
-  cta.append(a2);
-  if (SITE.resumeUrl) {
-    const r = el("a", "btn", "Resume");
-    r.href = SITE.resumeUrl;
-    r.target = "_blank";
-    r.rel = "noopener";
-    cta.append(r);
-  }
+if (SITE.photo) { const ph = $("photo"); ph.src = SITE.photo; ph.alt = SITE.name; $("portrait").hidden = false; }
+const cta = $("cta");
+const a1 = el("a", "btn solid", "See projects"); a1.href = "#projects"; cta.append(a1);
+const a2 = el("a", "btn", "Open terminal"); a2.href = "#terminal"; cta.append(a2);
+if (SITE.resumeUrl) { const r = el("a", "btn", "Resume"); r.href = SITE.resumeUrl; r.target = "_blank"; r.rel = "noopener"; cta.append(r); }
 
-  const sections = [
-    ["projects", "projects"],
-    ["terminal", "terminal"],
-    ["skills", "skills"],
-    ["journey", "journey"],
-    ["certs", "certs"],
-    ["contact", "contact"],
-  ];
-  sections.forEach(([id, label]) => {
-    const a = el("a", "", label);
-    a.href = "#" + id;
-    a.dataset.s = id;
-    $("nav").append(a);
-  });
+const sections = [["projects", "projects"], ["terminal", "terminal"], ["skills", "skills"], ["journey", "journey"], ["certs", "certs"], ["contact", "contact"]];
+sections.forEach(([id, label]) => { const a = el("a", "", label); a.href = "#" + id; a.dataset.s = id; $("nav").append(a); });
 
-  SITE.projects.forEach((p, i) => {
-    const c = el("article", "card reveal");
-    c.style.setProperty("--d", (i % 3) * 90 + "ms");
-    if (p.image) {
-      const im = el("img", "shot");
-      im.src = p.image;
-      im.alt = p.name + " screenshot";
-      im.loading = "lazy";
-      c.append(im);
-    }
-    c.append(
-      el("span", "kind", p.kind),
-      el("h3", "", p.name),
-      el("p", "", p.blurb)
-    );
-    const t = el("ul", "tags");
-    p.stack.forEach((s) => t.append(el("li", "", s)));
-    c.append(t);
-    const d = el("details");
-    d.append(el("summary", "", "what I did"));
-    const u = el("ul");
-    p.points.forEach((x) => u.append(el("li", "", x)));
-    d.append(u);
-    c.append(d);
-    $("cards").append(c);
-  });
-  SITE.skills.forEach((g, i) => {
-    const b = el("div", "group reveal" + (g.learning ? " learning" : ""));
-    b.style.setProperty("--d", i * 70 + "ms");
-    b.append(el("h3", "", g.group));
-    const t = el("ul", "tags");
-    g.items.forEach((s) => t.append(el("li", "", s)));
-    b.append(t);
-    $("groups").append(b);
-  });
-  SITE.journey.forEach((j) => {
-    const li = el("li", "reveal");
-    li.append(
-      el("span", "when", j.when),
-      el("h3", "", j.title),
-      el("p", "where", j.where)
-    );
-    if (j.points.length) {
-      const u = el("ul");
-      j.points.forEach((x) => u.append(el("li", "", x)));
-      li.append(u);
-    }
-    $("timeline").append(li);
-  });
-  SITE.certs.forEach((c, i) => {
-    const li = el("li", "reveal");
-    li.style.setProperty("--d", i * 60 + "ms");
-    li.append(el("b", "", c.name), el("span", "", c.by));
-    $("certList").append(li);
-  });
-  [
-    ["GitHub", SITE.github],
-    ["LinkedIn", SITE.linkedin],
-  ].forEach(([l, u]) => {
-    const a = el("a", "", l + " ↗");
-    a.href = u;
-    a.target = "_blank";
-    a.rel = "noopener";
-    $("social").append(a);
-  });
+SITE.projects.forEach((p, i) => {
+  const c = el("article", "card reveal"); c.style.setProperty("--d", (i % 3) * 90 + "ms");
+  if (p.image) { const im = el("img", "shot"); im.src = p.image; im.alt = p.name + " screenshot"; im.loading = "lazy"; c.append(im); }
+  c.append(el("span", "kind", p.kind), el("h3", "", p.name), el("p", "", p.blurb));
+  const t = el("ul", "tags"); p.stack.forEach((s) => t.append(el("li", "", s))); c.append(t);
+  const d = el("details"); d.append(el("summary", "", "what I did"));
+  const u = el("ul"); p.points.forEach((x) => u.append(el("li", "", x))); d.append(u); c.append(d);
+  $("cards").append(c);
+});
+SITE.skills.forEach((g, i) => {
+  const b = el("div", "group reveal" + (g.learning ? " learning" : "")); b.style.setProperty("--d", i * 70 + "ms");
+  b.append(el("h3", "", g.group)); const t = el("ul", "tags"); g.items.forEach((s) => t.append(el("li", "", s))); b.append(t); $("groups").append(b);
+});
+SITE.journey.forEach((j) => {
+  const li = el("li", "reveal"); li.append(el("span", "when", j.when), el("h3", "", j.title), el("p", "where", j.where));
+  if (j.points.length) { const u = el("ul"); j.points.forEach((x) => u.append(el("li", "", x))); li.append(u); }
+  $("timeline").append(li);
+});
+SITE.certs.forEach((c, i) => { const li = el("li", "reveal"); li.style.setProperty("--d", i * 60 + "ms"); li.append(el("b", "", c.name), el("span", "", c.by)); $("certList").append(li); });
+[["GitHub", SITE.github], ["LinkedIn", SITE.linkedin]].forEach(([l, u]) => { const a = el("a", "", l + " ↗"); a.href = u; a.target = "_blank"; a.rel = "noopener"; $("social").append(a); });
 
-  $("copy").addEventListener("click", async () => {
-    const b = $("copy");
-    try {
-      await navigator.clipboard.writeText(SITE.email);
-      b.textContent = "Copied";
-    } catch (e) {
-      const r = document.createRange();
-      r.selectNodeContents($("mail"));
-      const s = getSelection();
-      s.removeAllRanges();
-      s.addRange(r);
-      b.textContent = "Press Ctrl+C";
-    }
-    setTimeout(() => (b.textContent = "Copy email"), 1800);
-  });
+$("copy").addEventListener("click", async () => {
+  const b = $("copy");
+  try { await navigator.clipboard.writeText(SITE.email); b.textContent = "Copied"; }
+  catch (e) { const r = document.createRange(); r.selectNodeContents($("mail")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Press Ctrl+C"; }
+  setTimeout(() => (b.textContent = "Copy email"), 1800);
+});
 
-  /* ---------- terminal ---------- */
-  const out = $("out"),
-    input = $("cmd"),
-    history = [];
-  let hi = 0;
-  function print(text, cls) {
-    const d = el("div", cls || "", text);
-    out.append(d);
-    out.scrollTop = out.scrollHeight;
-    return d;
-  }
-  function printLink(label, url) {
-    const d = el("div");
-    const a = el("a", "", label);
-    a.href = url;
-    a.target = "_blank";
-    a.rel = "noopener";
-    d.append(a);
-    out.append(d);
-    out.scrollTop = out.scrollHeight;
-  }
-  const bySlug = (s) => SITE.projects.find((p) => p.slug === s);
-  const C = {
-    help: () => {
-      print("Commands:", "hl");
-      [
-        "about",
-        "projects",
-        "cat <project>",
-        "skills",
-        "journey",
-        "certs",
-        "contact",
-        "clear",
-      ].forEach((x) => print("  " + x));
-      print("Try: cat splunk-lab", "dim");
-    },
-    whoami: () => print(SITE.name + ". " + SITE.role),
-    about: () => print(SITE.about),
-    ls: () => print(SITE.projects.map((p) => p.slug).join("   ")),
-    projects: () =>
-      SITE.projects.forEach((p) => {
-        print(p.slug, "hl");
-        print("  " + p.blurb, "dim");
-      }),
-    cat: (arg) => {
-      const p = bySlug(arg);
-      if (!p)
-        return print(
-          arg
-            ? "cat: " + arg + ": no such project. Try ls."
-            : "usage: cat <project>. Try ls.",
-          "err"
-        );
-      print(p.name + " [" + p.stack.join(", ") + "]", "hl");
-      p.points.forEach((x) => print(" - " + x));
-    },
-    skills: () =>
-      SITE.skills.forEach((g) => {
-        print(g.group + ":", "hl");
-        print("  " + g.items.join(", "));
-      }),
-    journey: () =>
-      SITE.journey.forEach((j) => {
-        print(j.when + "  " + j.title, "hl");
-        print("  " + j.where, "dim");
-        j.points.forEach((x) => print("   - " + x));
-      }),
-    certs: () =>
-      SITE.certs.forEach((c) => print("- " + c.name + " (" + c.by + ")")),
-    contact: () => {
-      print("Email: " + SITE.email);
-      printLink("GitHub: " + SITE.github, SITE.github);
-      printLink("LinkedIn: " + SITE.linkedin, SITE.linkedin);
-    },
-    clear: () => {
-      out.textContent = "";
-    },
-    sudo: () => print("Permission denied. Nice try.", "err"),
-    ping: () => print("pong"),
-    hack: () => print("Wrong lab. This one only has defense.", "err"),
-  };
-  C.exp = C.journey;
-  C.edu = C.journey;
-  C.certificates = C.certs;
-  C.project = C.projects;
-  C.skill = C.skills;
-  function run(line) {
-    const raw = line.trim();
-    if (!raw) return;
-    const echo = el("div", "cmd");
-    echo.textContent = "$ " + raw;
-    out.append(echo);
-    const [name, ...rest] = raw.split(/\s+/);
-    const fn = C[name.toLowerCase()];
-    if (fn) fn(rest.join(" ").toLowerCase());
-    else print("command not found: " + name + ". Type help.", "err");
-    out.scrollTop = out.scrollHeight;
-  }
-  $("form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const v = input.value;
-    if (v.trim()) {
-      history.push(v);
-      hi = history.length;
-    }
-    run(v);
-    input.value = "";
-  });
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowUp" && history.length) {
-      e.preventDefault();
-      hi = Math.max(0, hi - 1);
-      input.value = history[hi];
-    } else if (e.key === "ArrowDown") {
-      e.preventDefault();
-      hi = Math.min(history.length, hi + 1);
-      input.value = history[hi] || "";
-    } else if (e.key === "Tab") {
-      e.preventDefault();
-      const v = input.value.toLowerCase();
-      const m = Object.keys(C).find((k) => v && k.startsWith(v));
-      if (m) input.value = m;
-    }
-  });
-  ["projects", "skills", "certs", "contact", "help"].forEach((c) => {
-    const b = el("button", "", c);
-    b.type = "button";
-    b.addEventListener("click", () => {
-      run(c);
-    });
-    $("quick").append(b);
-  });
-  print("Welcome. Type a command, or tap one below.", "dim");
-  run("whoami");
-  run("help");
+/* ---------- terminal ---------- */
+const out = $("out"), input = $("cmd"), history = []; let hi = 0;
+function print(text, cls) { const d = el("div", cls || "", text); out.append(d); out.scrollTop = out.scrollHeight; return d; }
+function printLink(label, url) { const d = el("div"); const a = el("a", "", label); a.href = url; a.target = "_blank"; a.rel = "noopener"; d.append(a); out.append(d); out.scrollTop = out.scrollHeight; }
+const bySlug = (s) => SITE.projects.find((p) => p.slug === s);
+const C = {
+  help: () => { print("Commands:", "hl"); ["about", "projects", "cat <project>", "skills", "journey", "certs", "contact", "clear"].forEach((x) => print("  " + x)); print("Try: cat splunk-lab", "dim"); },
+  whoami: () => print(SITE.name + ". " + SITE.role),
+  about: () => print(SITE.about),
+  ls: () => print(SITE.projects.map((p) => p.slug).join("   ")),
+  projects: () => SITE.projects.forEach((p) => { print(p.slug, "hl"); print("  " + p.blurb, "dim"); }),
+  cat: (arg) => { const p = bySlug(arg); if (!p) return print(arg ? "cat: " + arg + ": no such project. Try ls." : "usage: cat <project>. Try ls.", "err"); print(p.name + " [" + p.stack.join(", ") + "]", "hl"); p.points.forEach((x) => print(" - " + x)); },
+  skills: () => SITE.skills.forEach((g) => { print(g.group + ":", "hl"); print("  " + g.items.join(", ")); }),
+  journey: () => SITE.journey.forEach((j) => { print(j.when + "  " + j.title, "hl"); print("  " + j.where, "dim"); j.points.forEach((x) => print("   - " + x)); }),
+  certs: () => SITE.certs.forEach((c) => print("- " + c.name + " (" + c.by + ")")),
+  contact: () => { print("Email: " + SITE.email); printLink("GitHub: " + SITE.github, SITE.github); printLink("LinkedIn: " + SITE.linkedin, SITE.linkedin); },
+  clear: () => { out.textContent = ""; },
+  sudo: () => print("Permission denied. Nice try.", "err"),
+  ping: () => print("pong"),
+  hack: () => print("Wrong lab. This one only has defense.", "err")
+};
+C.exp = C.journey; C.edu = C.journey; C.certificates = C.certs; C.project = C.projects; C.skill = C.skills;
+function run(line) {
+  const raw = line.trim(); if (!raw) return;
+  const echo = el("div", "cmd"); echo.textContent = "$ " + raw; out.append(echo);
+  const [name, ...rest] = raw.split(/\s+/); const fn = C[name.toLowerCase()];
+  if (fn) fn(rest.join(" ").toLowerCase()); else print("command not found: " + name + ". Type help.", "err");
+  out.scrollTop = out.scrollHeight;
+}
+$("form").addEventListener("submit", (e) => { e.preventDefault(); const v = input.value; if (v.trim()) { history.push(v); hi = history.length; } run(v); input.value = ""; });
+input.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowUp" && history.length) { e.preventDefault(); hi = Math.max(0, hi - 1); input.value = history[hi]; }
+  else if (e.key === "ArrowDown") { e.preventDefault(); hi = Math.min(history.length, hi + 1); input.value = history[hi] || ""; }
+  else if (e.key === "Tab") { e.preventDefault(); const v = input.value.toLowerCase(); const m = Object.keys(C).find((k) => v && k.startsWith(v)); if (m) input.value = m; }
+});
+["projects", "skills", "certs", "contact", "help"].forEach((c) => { const b = el("button", "", c); b.type = "button"; b.addEventListener("click", () => { run(c); }); $("quick").append(b); });
+print("Welcome. Type a command, or tap one below.", "dim"); run("whoami"); run("help");
 
-  /* ---------- scroll effects ---------- */
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const revealEls = document.querySelectorAll(".reveal");
-  if ("IntersectionObserver" in window && !reduce) {
-    const io = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((en) => {
-          if (en.isIntersecting) {
-            en.target.classList.add("in");
-            io.unobserve(en.target);
-          }
-        }),
-      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
-    );
-    revealEls.forEach((n) => io.observe(n));
-  } else {
-    revealEls.forEach((n) => n.classList.add("in"));
-  }
+/* ---------- scroll effects ---------- */
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const revealEls = document.querySelectorAll(".reveal");
+if ("IntersectionObserver" in window && !reduce) {
+  const io = new IntersectionObserver((entries) => entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } }), { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+  revealEls.forEach((n) => io.observe(n));
+} else { revealEls.forEach((n) => n.classList.add("in")); }
 
-  const links = [...document.querySelectorAll(".links a")];
-  const secEls = sections.map(([id]) => document.getElementById(id));
-  const bar = $("bar"),
-    grid = $("heroGrid");
-  function onScroll() {
-    const h = document.documentElement;
-    const max = h.scrollHeight - innerHeight;
-    bar.style.width = (max > 0 ? (scrollY / max) * 100 : 0) + "%";
-    if (!reduce) grid.style.transform = "translateY(" + scrollY * 0.18 + "px)";
-    let cur = "";
-    secEls.forEach((s) => {
-      if (s && s.getBoundingClientRect().top < innerHeight * 0.4) cur = s.id;
-    });
-    links.forEach((a) => a.classList.toggle("on", a.dataset.s === cur));
-  }
-  addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
+const links = [...document.querySelectorAll(".links a")];
+const secEls = sections.map(([id]) => document.getElementById(id));
+const bar = $("bar"), grid = $("heroGrid");
+function onScroll() {
+  const h = document.documentElement; const max = h.scrollHeight - innerHeight;
+  bar.style.width = (max > 0 ? (scrollY / max) * 100 : 0) + "%";
+  if (!reduce) grid.style.setProperty("--py", scrollY * 0.18 + "px");
+  let cur = ""; secEls.forEach((s) => { if (s && s.getBoundingClientRect().top < innerHeight * 0.4) cur = s.id; });
+  links.forEach((a) => a.classList.toggle("on", a.dataset.s === cur));
+}
+addEventListener("scroll", onScroll, { passive: true }); onScroll();
 </script>
+
+</body></html>
